@@ -1,0 +1,21 @@
+apply plugin: 'java'
+
+apply plugin: 'application'
+mainClassName = 'ca.jahed.rtpoet.dsl.diagram.RTPoetServerLauncher'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    archiveBaseName = 'rtpoet-dsl-diagram'
+    archiveVersion =  '0.1.0'
+}
+
+sourceCompatibility = "11"
+targetCompatibility = "11"
+
+dependencies {
+    implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.server', version: '0.8.0'
+    implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.graph', version: '0.8.0'
+}
