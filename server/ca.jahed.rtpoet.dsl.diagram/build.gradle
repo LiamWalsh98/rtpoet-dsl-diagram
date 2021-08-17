@@ -1,0 +1,21 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+dependencies {
+    implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.server', version: '0.8.0'
+    implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.graph', version: '0.8.0'
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+mainClassName = 'ca.jahed.rtpoet.dsl.diagram.RTPoetServerLauncher'
+
+shadowJar {
+    from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
+    exclude('META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA','schema/*',
+            '.options', '.api_description', '*.profile', '*.html', 'about.*', 'about_files/*',
+            'plugin.xml', 'systembundle.properties', 'profile.list')
+    classifier = 'ls'
+    append('plugin.properties')
+}

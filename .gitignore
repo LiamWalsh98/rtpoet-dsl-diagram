@@ -1,8 +1,11 @@
 # Ignore Gradle project-specific cache directory
-.gradle
+../.gradle
 
 # Ignore Gradle build output directory
 build
 
 # Ignore jetbrains workspace config
 .idea
+
+# Ignore properties file where users' gpr keys would be located
+server/gradle.properties
