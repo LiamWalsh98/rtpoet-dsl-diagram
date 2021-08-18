@@ -1,0 +1,43 @@
+{
+  "name": "@rtpoet/rtpoet-theia",
+  "version": "0.8.0",
+  "description": "Theia extension for the RTPoet GLSP server",
+  "license": "EPL-2.0",
+  "keywords": [
+    "theia-extension"
+  ],
+  "author": {
+    "name": "Liam Walsh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiamWalsh98/rtpoet-dsl-diagram.git"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@rtpoet/rtpoet-glsp": "0.8.0",
+    "@eclipse-glsp/theia-integration": "0.8.0",
+    "@eclipse-glsp/client": "0.8.1"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.1",
+    "typescript": "3.9.2"
+  },
+  "scripts": {
+    "prepare": "yarn  clean && yarn build && yarn lint",
+    "clean": "rimraf lib",
+    "build": "tsc  && yarn copy:server",
+    "lint": "eslint -c ./.eslintrc.js --ext .ts ./src",
+    "copy:server": "cp ../../server/ca.jahed.rtpoet.dsl.diagram/build/libs/ca.jahed.rtpoet.dsl.diagram-0.1.0-ls.jar server/ca.jahed.rtpoet.dsl.diagram-0.1.0-ls.jar",
+    "watch": "tsc -w"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/frontend-module",
+      "backend": "lib/node/backend-module"
+    }
+  ]
+}
