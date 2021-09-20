@@ -24,7 +24,7 @@ public class RTPoetModelState extends GModelStateImpl implements GModelState {
 
 	public static RTPoetModelState getModelState(GModelState state) {
 		if (!(state instanceof RTPoetModelState)) {
-			throw new IllegalArgumentException("Argument must be a RTPoetModelState");
+			throw new IllegalArgumentException("Argument must be a RTPoetModelState. Argument was of type: " + state.getClass().getName());
 		}
 		return ((RTPoetModelState) state);
 	}

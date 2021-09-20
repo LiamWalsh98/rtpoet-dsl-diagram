@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ASCII"?>
+<rt:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rt="http://www.jahed.ca/rtpoet/dsl/Rt" name="PingPong">
+  <capsules name="Pinger">
+    <ports name="pingPort" conjugate="true" type="//@protocols.0"/>
+    <ports name="log">
+      <type href="jar:file:/Users/liamwalsh/.vscode/extensions/jahed.rtpoet-vscode-extension-1.0.7/src/rt/lib/ca.jahed.rtpoet.dsl-1.0.7.jar!/libraries/RTSLibrary.rt#//@protocols.2"/>
+    </ports>
+    <ports name="timer">
+      <type href="jar:file:/Users/liamwalsh/.vscode/extensions/jahed.rtpoet-vscode-extension-1.0.7/src/rt/lib/ca.jahed.rtpoet.dsl-1.0.7.jar!/libraries/RTSLibrary.rt#//@protocols.0"/>
+    </ports>
+    <stateMachine>
+      <substates xsi:type="rt:InitialPoint" name="init"/>
+      <substates xsi:type="rt:SimpleState" name="delay"/>
+      <substates xsi:type="rt:SimpleState" entryAction="`&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if ( pingPort.ping().send() ) {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;ping sent!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;} else {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;Error sending Ping!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;`" name="playing"/>
+      <transitions source="//@capsules.0/@stateMachine/@substates.0" target="//@capsules.0/@stateMachine/@substates.2">
+        <actionChain body="`&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;Starting game!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;`"/>
+      </transitions>
+      <transitions source="//@capsules.0/@stateMachine/@substates.2" target="//@capsules.0/@stateMachine/@substates.1">
+        <triggers ports="//@capsules.0/@ports.0" signal="//@protocols.0/@signals.1"/>
+        <actionChain body="`&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;[Pinger] Pong received!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;timer.informIn(UMLRTTimespec(1,0));&#xA;&#x9;&#x9;&#x9;&#x9;`"/>
+      </transitions>
+      <transitions source="//@capsules.0/@stateMachine/@substates.1" target="//@capsules.0/@stateMachine/@substates.2">
+        <triggers ports="//@capsules.0/@ports.2">
+          <signal href="jar:file:/Users/liamwalsh/.vscode/extensions/jahed.rtpoet-vscode-extension-1.0.7/src/rt/lib/ca.jahed.rtpoet.dsl-1.0.7.jar!/libraries/RTSLibrary.rt#//@protocols.0/@signals.0"/>
+        </triggers>
+      </transitions>
+    </stateMachine>
+  </capsules>
+  <capsules name="Ponger">
+    <ports name="pongPort" type="//@protocols.0"/>
+    <ports name="log">
+      <type href="jar:file:/Users/liamwalsh/.vscode/extensions/jahed.rtpoet-vscode-extension-1.0.7/src/rt/lib/ca.jahed.rtpoet.dsl-1.0.7.jar!/libraries/RTSLibrary.rt#//@protocols.2"/>
+    </ports>
+    <stateMachine>
+      <substates xsi:type="rt:InitialPoint" name="init"/>
+      <substates xsi:type="rt:SimpleState" name="playing"/>
+      <transitions source="//@capsules.1/@stateMachine/@substates.0" target="//@capsules.1/@stateMachine/@substates.1"/>
+      <transitions source="//@capsules.1/@stateMachine/@substates.1" target="//@capsules.1/@stateMachine/@substates.1">
+        <triggers ports="//@capsules.1/@ports.0" signal="//@protocols.0/@signals.0"/>
+        <actionChain body="`&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;[Ponger] Ping received!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if (pongPort.pong().send()){&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;[Ponger] Pong sent!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;} else {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;log.log(&quot;[Ponger] Error sending Pong!&quot;);&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;&#x9;`"/>
+      </transitions>
+    </stateMachine>
+  </capsules>
+  <capsules top="true" name="Top">
+    <parts name="pinger" type="//@capsules.0"/>
+    <parts name="ponger" type="//@capsules.1"/>
+    <connectors part1="//@capsules.2/@parts.1" port1="//@capsules.1/@ports.0" part2="//@capsules.2/@parts.0" port2="//@capsules.0/@ports.0"/>
+  </capsules>
+  <protocols name="PingPongProtocol">
+    <signals kind="in" name="ping"/>
+    <signals kind="out" name="pong"/>
+  </protocols>
+</rt:Model>

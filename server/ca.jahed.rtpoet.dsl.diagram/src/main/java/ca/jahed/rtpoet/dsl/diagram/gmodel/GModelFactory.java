@@ -17,11 +17,11 @@ import org.eclipse.emf.ecore.*;
 import org.eclipse.glsp.graph.*;
 import org.eclipse.glsp.graph.builder.impl.*;
 import org.eclipse.glsp.graph.util.GConstants;
-import org.eclipse.glsp.server.model.GModelStateImpl;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement> {
@@ -71,13 +71,14 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
 //                .collect(Collectors.toList()));
         // todo: expand upon state machine example
 
-        graph.getChildren().addAll(model.eContents().stream()//
-                .filter(Capsule.class::isInstance)
+//        graph.getChildren().addAll(model.eContents().stream().filter(Capsule.class::isInstance).map(this::create).collect(Collectors.toList()));
+
+        graph.getChildren().addAll(model.getCapsules().stream()
                 .map(this::create)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
                 .collect(Collectors.toList()));
-
         return graph;
-
     }
 
 //	public GModelElement create(Part semanticElement) {

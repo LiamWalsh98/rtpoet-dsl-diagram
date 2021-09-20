@@ -35,11 +35,9 @@ public class RTPoetGLSPModule extends DefaultGLSPModule {
         return RTPoetToolPaletteItemProvider.class;
     }
 
-//    @Override
-//    protected Class<? extends ModelStateProvider> bindModelStateProvider() {
-//        return RTPoetModelStateProvider.class;
-//    }
-
-
+    @Override
+    protected Class<? extends ModelStateProvider> bindModelStateProvider() {
+        return RTPoetModelStateProvider.class;
+    }
 
 }
