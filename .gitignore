@@ -9,3 +9,25 @@ build
 
 # Ignore properties file where users' gpr keys would be located
 server/gradle.properties
+
+.temp
+
+*.log
+
+## Web ##
+
+node_modules
+node_modules/.yarn-integrity
+.browser_modules
+
+lib
+
+*.log
+
+**/browser-app/**
+!**/browser-app/package.json
+
+**/electron-app/**
+!**/electron-app/package.json
+
+**/rtpoet-theia/server/**

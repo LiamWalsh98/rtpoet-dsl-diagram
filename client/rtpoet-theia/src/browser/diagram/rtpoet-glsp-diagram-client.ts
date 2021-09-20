@@ -20,7 +20,7 @@ import { inject, injectable } from 'inversify';
 import { RTPoetGLSPClientContribution } from '../language/rtpoet-glsp-client-contribution';
 
 @injectable()
-export class RTPoetGlspDiagramClient extends GLSPDiagramClient {
+export class RTPoetGLSPDiagramClient extends GLSPDiagramClient {
     constructor(
         @inject(RTPoetGLSPClientContribution) glspCLientContribution: RTPoetGLSPClientContribution,
         @inject(EditorManager) editorManager: EditorManager) {

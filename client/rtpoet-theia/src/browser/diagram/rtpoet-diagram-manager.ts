@@ -25,7 +25,7 @@ import { inject, injectable } from 'inversify';
 import { TheiaFileSaver } from 'sprotty-theia';
 
 import { RTPoetLanguage } from '../../common/rtpoet-language';
-import { RTPoetGlspDiagramClient } from './rtpoet-glsp-diagram-client';
+import { RTPoetGLSPDiagramClient } from './rtpoet-glsp-diagram-client';
 
 @injectable()
 export class RTPoetDiagramManager extends GLSPDiagramManager {
@@ -36,7 +36,7 @@ export class RTPoetDiagramManager extends GLSPDiagramManager {
     private _diagramConnector: GLSPTheiaSprottyConnector;
 
     constructor(
-        @inject(RTPoetGlspDiagramClient) diagramClient: RTPoetGlspDiagramClient,
+        @inject(RTPoetGLSPDiagramClient) diagramClient: RTPoetGLSPDiagramClient,
         @inject(TheiaFileSaver) fileSaver: TheiaFileSaver,
         @inject(WidgetManager) widgetManager: WidgetManager,
         @inject(EditorManager) editorManager: EditorManager,

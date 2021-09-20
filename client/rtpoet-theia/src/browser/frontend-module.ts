@@ -24,14 +24,14 @@ import { DiagramConfiguration } from 'sprotty-theia';
 
 import { RTPoetDiagramConfiguration } from './diagram/rtpoet-diagram-configuration';
 import { RTPoetDiagramManager } from './diagram/rtpoet-diagram-manager';
-import { RTPoetGlspDiagramClient } from './diagram/rtpoet-glsp-diagram-client';
-import { RTPoetGlspClientContribution } from './language/rtpoet-glsp-client-contribution';
+import { RTPoetGLSPDiagramClient } from './diagram/rtpoet-glsp-diagram-client';
+import { RTPoetGLSPClientContribution } from './language/rtpoet-glsp-client-contribution';
 
 export default new ContainerModule((bind: interfaces.Bind) => {
-    bind(RTPoetGlspClientContribution).toSelf().inSingletonScope();
-    bind(GLSPClientContribution).toService(RTPoetGlspClientContribution);
+    bind(RTPoetGLSPClientContribution).toSelf().inSingletonScope();
+    bind(GLSPClientContribution).toService(RTPoetGLSPClientContribution);
     bind(DiagramConfiguration).to(RTPoetDiagramConfiguration).inSingletonScope();
-    bind(RTPoetGlspDiagramClient).toSelf().inSingletonScope();
+    bind(RTPoetGLSPDiagramClient).toSelf().inSingletonScope();
     registerDiagramManager(bind, RTPoetDiagramManager);
 
     // Optional default commands and menus

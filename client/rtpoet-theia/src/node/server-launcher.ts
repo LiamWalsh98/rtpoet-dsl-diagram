@@ -26,8 +26,6 @@ import { join, resolve } from 'path';
 const jarPath = resolve(join(__dirname, '..', '..', 'server', 'ca.jahed.rtpoet.dsl.diagram-0.1.0-ls.jar'));
 const serverPort = getPort('RTPOET_GLSP');
 
-
-
 @injectable()
 export class RTPoetServerLauncher implements BackendApplicationContribution {
     @inject(RawProcessFactory) protected readonly processFactory: RawProcessFactory;

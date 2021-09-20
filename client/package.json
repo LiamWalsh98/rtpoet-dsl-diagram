@@ -54,6 +54,6 @@
   "workspaces": [
     "rtpoet-glsp",
     "rtpoet-theia",
-    "rtpoet-browser-app"
+    "browser-app"
   ]
 }

@@ -17,7 +17,7 @@ import '../css/diagram.css';
 
 import {
     boundsModule,
-    buttonModule,
+    buttonModule, CircularNode, CircularNodeView,
     configureModelElement,
     ConsoleLogger,
     defaultGLSPModule,
@@ -50,7 +50,14 @@ import {
     viewportModule,
     zorderModule
 } from '@eclipse-glsp/client';
+import {
+    ArrowEdge
+} from './model';
+import {
+    ArrowEdgeView
+} from './views';
 import { Container, ContainerModule } from 'inversify';
+
 
 const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
     rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
@@ -58,6 +65,17 @@ const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
     const context = { bind, unbind, isBound, rebind };
     configureModelElement(context, 'graph', GLSPGraph, SGraphView);
     configureModelElement(context, 'node', RectangularNode, RectangularNodeView);
+
+    configureModelElement(context, 'node:state', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:composite', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:initial-point', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:entry-point', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:exit-point', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:choice-point', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:junction-point', CircularNode, CircularNodeView);
+    configureModelElement(context, 'node:state:deep-history', CircularNode, CircularNodeView);
+
+    configureModelElement(context, "edge:reference", ArrowEdge, ArrowEdgeView);
 });
 
 export default function createContainer(widgetId: string): Container {

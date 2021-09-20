@@ -23,7 +23,7 @@ import { createSocketConnection } from 'vscode-ws-jsonrpc/lib/server';
 import { RTPoetLanguage } from '../common/rtpoet-language';
 
 @injectable()
-export class RTPoetGlspServerContribution extends BaseGLSPServerContribution {
+export class RTPoetGLSPServerContribution extends BaseGLSPServerContribution {
     readonly id = RTPoetLanguage.Id;
     readonly name = RTPoetLanguage.Name;
 

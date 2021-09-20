@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "rtpoet-browser-app",
+  "name": "browser-app",
   "version": "0.1.0",
   "dependencies": {
     "@theia/core": "1.4.0",
@@ -24,7 +24,7 @@
     "prepare": "yarn build",
     "build": "theia build --mode development",
     "start": "theia start --RTPOET_GLSP=5013 --root-dir=../workspace",
-    "start:debug": "theia start --RTPOET_GLSP=5013  --root-dir=../workspace --loglevel=debug --DEBUG",
+    "start:debug": "theia start --RTPOET_GLSP=5013 --root-dir=../workspace --loglevel=debug",
     "watch": "yarn build --mode development"
   },
   "theia": {

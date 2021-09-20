@@ -19,7 +19,7 @@ import { injectable } from 'inversify';
 import { RTPoetLanguage } from '../../common/rtpoet-language';
 
 @injectable()
-export class RTPoetGlspClientContribution extends BaseGLSPClientContribution {
+export class RTPoetGLSPClientContribution extends BaseGLSPClientContribution {
     readonly id = RTPoetLanguage.Id;
     readonly name = RTPoetLanguage.Name;
     readonly fileExtensions = [RTPoetLanguage.FileExtension];
