@@ -8,6 +8,11 @@ subprojects {
         mavenCentral()
 
         maven {
+            name = "OpenMind"
+            url = "http://repository.openmindonline.it/"
+        }
+
+        maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/kjahed/rtpoet")
             credentials {
@@ -19,5 +24,13 @@ subprojects {
 
     group = 'ca.jahed.rtpoet.dsl.diagram'
     version = '0.1.0'
+
+    dependencies {
+        implementation 'ca.jahed.rtpoet.dsl:ca.jahed.rtpoet.dsl.parent:1.0.6'
+    }
+
+//    apply from: "${rootDir}/gradle/source-layout.gradle"
+    apply plugin: 'idea'
+
 
 }

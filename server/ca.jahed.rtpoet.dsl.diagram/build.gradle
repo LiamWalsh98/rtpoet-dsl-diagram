@@ -5,6 +5,11 @@ plugins {
 dependencies {
     implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.server', version: '0.8.0'
     implementation group: 'org.eclipse.glsp', name: 'org.eclipse.glsp.graph', version: '0.8.0'
+// https://mvnrepository.com/artifact/org.eclipse.gmf/org.eclipse.gmf.runtime.notation
+    implementation group: 'org.eclipse.gmf', name: 'org.eclipse.gmf.runtime.notation', version: '1.1.1-20081006'
+// https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.edit
+    implementation group: 'org.eclipse.emf', name: 'org.eclipse.emf.edit', version: '2.16.0'
+
 }
 
 apply plugin: 'application'
