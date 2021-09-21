@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { SChildElement } from "@eclipse-glsp/client";
+import { SChildElement } from '@eclipse-glsp/client';
 import {
     boundsFeature,
     deletableFeature,
@@ -29,14 +29,14 @@ import {
     SShapeElement,
     WithEditableLabel,
     withEditLabelFeature
-} from "sprotty/lib";
+} from 'sprotty/lib';
 
 export class LabeledNode extends RectangularNode implements WithEditableLabel, Nameable {
 
     get editableLabel(): (SChildElement & EditableLabel) | undefined {
-        const headerComp = this.children.find(element => element.type === "comp:header");
+        const headerComp = this.children.find(element => element.type === 'comp:header');
         if (headerComp) {
-            const label = headerComp.children.find(element => element.type === "label:heading");
+            const label = headerComp.children.find(element => element.type === 'label:heading');
             if (label && isEditableLabel(label)) {
                 return label;
             }

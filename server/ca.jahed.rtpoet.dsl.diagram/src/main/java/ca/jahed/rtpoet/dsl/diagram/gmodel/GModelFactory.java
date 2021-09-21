@@ -11,7 +11,7 @@
 package ca.jahed.rtpoet.dsl.diagram.gmodel;
 
 import ca.jahed.rtpoet.dsl.diagram.model.RTPoetModelState;
-import ca.jahed.rtpoet.dsl.diagram.util.RTPoetConfig.CSS;
+import ca.jahed.rtpoet.dsl.diagram.util.RTPoetConfig.*;
 import ca.jahed.rtpoet.dsl.rt.*;
 import org.eclipse.emf.ecore.*;
 import org.eclipse.glsp.graph.*;
@@ -147,10 +147,12 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
         String target = toId(transition.getTarget());
         String id = toId(transition);
 
-        GEdgeBuilder b = new GEdgeBuilder().id(id) //
-                .addCssClass(CSS.EDGE) //
+        GEdgeBuilder b = new GEdgeBuilder(Types.TRANSITION).id(id) //
+                .addCssClass(CSS.EDGE)//
+                .addCssClass(CSS.TRANSITION)//
                 .sourceId(source) //
                 .targetId(target) //
+//                .add(createEdgeLabel(transition)) // todo: fix guard labels
                 .routerKind(GConstants.RouterKind.POLYLINE);
         return b.build();
     }
@@ -165,6 +167,16 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
 //                        .build()) //
 //                .build();
 //    }
+
+    private GLabel createEdgeLabel(Transition transition) {
+        return new GLabelBuilder(Types.TRANSITION_GUARD) //
+                .edgePlacement(new GEdgePlacementBuilder()//
+                        .side(GConstants.EdgeSide.TOP)//
+                        .offset(2d) //
+                        .rotate(false) //
+                        .build())//
+                .text(transition.getGuard().getBody()).build();
+    }
 
     public static GLSPServerException createFailed(EObject semanticElement) {
         return new GLSPServerException("Error during model initialization!", new Throwable(

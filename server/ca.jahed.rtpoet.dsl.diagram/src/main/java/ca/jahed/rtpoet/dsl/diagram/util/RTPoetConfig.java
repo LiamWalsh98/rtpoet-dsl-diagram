@@ -55,6 +55,8 @@ public final class RTPoetConfig {
 
         public static final String TRANSITION = "edge:transition";
 
+        public static final String TRANSITION_GUARD = "label:transition:guard";
+
         // Values
 
 
@@ -65,13 +67,8 @@ public final class RTPoetConfig {
 	public static final class CSS {
 
 		public static final String NODE = "rtpoet-node";
-		public static final String FOREIGN_PACKAGE = "foreign-package";
-		public static final String ABSTRACT = "abstract";
-		public static final String INTERFACE = "interface";
-		public static final String COMPOSITION = "composition";
 		public static final String EDGE = "rtpoet-edge";
-		public static final String INHERITANCE = "inheritance";
-		public static final String ITALIC = "italic";
+		public static final String TRANSITION = "transition";
 
 		private CSS() {
 		};

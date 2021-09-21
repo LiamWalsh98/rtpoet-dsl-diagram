@@ -12,31 +12,48 @@ package ca.jahed.rtpoet.dsl.diagram.gmodel;
 
 import ca.jahed.rtpoet.dsl.diagram.model.RTPoetModelState;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.server.model.GModelStateImpl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractGModelFactory<T extends EObject, E extends GModelElement> {
 
-	protected GModelStateImpl modelState;
+    protected RTPoetModelState modelState;
+    protected static Map<EObject, String> idMap = new HashMap<>();
 
-	public AbstractGModelFactory(RTPoetModelState modelState) {
-		this.modelState = modelState;
-	}
+    public AbstractGModelFactory(RTPoetModelState modelState) {
+        this.modelState = modelState;
+    }
 
-	public abstract E create(T semanticElement);
+    public String getOrCreateId(EObject element) {
+        if (idMap.containsKey(element)) {
+            return idMap.get(element);
+        } else {
+            String newId = UUID.randomUUID().toString();
+            idMap.put(element, newId);
+            return newId;
+        }
+    }
 
-	public <U extends E> Optional<U> create(T semanticElement, Class<U> clazz) {
-		return Optional.ofNullable(create(semanticElement)).filter(clazz::isInstance).map(clazz::cast);
-	}
+    public abstract E create(T semanticElement);
 
-	protected String toId(EObject element) {
-	    return element.toString(); //
+    public <U extends E> Optional<U> create(T semanticElement, Class<U> clazz) {
+        return Optional.ofNullable(create(semanticElement)).filter(clazz::isInstance).map(clazz::cast);
+    }
+
+    protected String toId(EObject element) {
+
+//        EcoreUtil.getID(element);
+
+        return getOrCreateId(element); //
+
 
 //		String id = modelState.getIndex().getId(element).orElse(null);
-//        String id2 = modelState.getIndex().
 //
 //        // todo: fix this
 //
@@ -46,5 +63,5 @@ public abstract class AbstractGModelFactory<T extends EObject, E extends GModelE
 //		}
 //		return id;
 //
-	}
+    }
 }

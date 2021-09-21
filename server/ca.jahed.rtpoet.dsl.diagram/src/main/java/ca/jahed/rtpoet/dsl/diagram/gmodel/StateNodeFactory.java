@@ -35,6 +35,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(SimpleState state) {
         GNodeBuilder b = new GNodeBuilder(Types.SIMPLE_STATE) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -43,6 +44,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(CompositeState state) {
         GNodeBuilder b = new GNodeBuilder(Types.COMPOSITE_STATE) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -68,6 +70,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(EntryPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.ENTRY_POINT) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -76,6 +79,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(ExitPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.EXIT_POINT) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -84,6 +88,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(InitialPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.INITIAL_POINT) //
                 .id(toId(state)) //
+                .size(15,15)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -92,6 +97,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(JunctionPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.JUNCTION_POINT) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -100,6 +106,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(ChoicePoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.CHOICE_POINT) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -108,6 +115,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(DeepHistory state) {
         GNodeBuilder b = new GNodeBuilder(Types.DEEP_HISTORY) //
                 .id(toId(state)) //
+                .size(30,30)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();

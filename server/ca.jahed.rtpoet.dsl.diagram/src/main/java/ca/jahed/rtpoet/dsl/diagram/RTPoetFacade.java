@@ -59,6 +59,14 @@ public class RTPoetFacade {
 	}
 
 	private Model getOrCreateModel() {
+
+        Model model = (Model) resource.getContents().get(0);
+        if (model == null) {
+            return createModel();
+
+        } else {
+            return model;
+        }
 //		Optional<Model> existingModel = findModel();
 //		model = existingModel.isPresent() ? existingModel.get() : createModel();
 //		findUnresolvedElements(model).forEach(e -> e.setSemanticElement(resolved(e.getSemanticElement()))); //todo: replace this line
@@ -66,7 +74,6 @@ public class RTPoetFacade {
 
         // todo: for now i am always creating the model from scratch
 
-		return createModel();
 
 	}
 

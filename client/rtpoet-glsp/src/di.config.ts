@@ -51,13 +51,13 @@ import {
     zorderModule
 } from '@eclipse-glsp/client';
 import {
-    ArrowEdge
+    ArrowEdge, SEditableLabel
 } from './model';
 import {
     ArrowEdgeView
 } from './views';
 import { Container, ContainerModule } from 'inversify';
-
+import {SLabelView} from 'sprotty/lib';
 
 const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
     rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
@@ -75,7 +75,9 @@ const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) 
     configureModelElement(context, 'node:state:junction-point', CircularNode, CircularNodeView);
     configureModelElement(context, 'node:state:deep-history', CircularNode, CircularNodeView);
 
-    configureModelElement(context, "edge:reference", ArrowEdge, ArrowEdgeView);
+    configureModelElement(context, 'label:transition:guard', SEditableLabel, SLabelView);
+
+    configureModelElement(context, 'edge:transition', ArrowEdge, ArrowEdgeView);
 });
 
 export default function createContainer(widgetId: string): Container {
