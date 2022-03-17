@@ -13,17 +13,17 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import { GLSPDiagramClient } from '@eclipse-glsp/theia-integration/lib/browser';
-import { EditorManager } from '@theia/editor/lib/browser';
-import { inject, injectable } from 'inversify';
-
-import { RTPoetGLSPClientContribution } from '../language/rtpoet-glsp-client-contribution';
-
-@injectable()
-export class RTPoetGLSPDiagramClient extends GLSPDiagramClient {
-    constructor(
-        @inject(RTPoetGLSPClientContribution) glspCLientContribution: RTPoetGLSPClientContribution,
-        @inject(EditorManager) editorManager: EditorManager) {
-        super(glspCLientContribution, editorManager);
-    }
-}
+// import { GLSPDiagramClient } from '@eclipse-glsp/theia-integration/lib/browser';
+// import { EditorManager } from '@theia/editor/lib/browser';
+// import { inject, injectable } from 'inversify';
+//
+// import { RTPoetGLSPClientContribution } from '../language/rtpoet-glsp-client-contribution';
+//
+// @injectable()
+// export class RTPoetGLSPDiagramClient extends GLSPDiagramClient {
+//     constructor(
+//         @inject(RTPoetGLSPClientContribution) glspCLientContribution: RTPoetGLSPClientContribution,
+//         @inject(EditorManager) editorManager: EditorManager) {
+//         super(glspCLientContribution, editorManager);
+//     }
+// }

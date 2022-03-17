@@ -36,7 +36,12 @@ svg {
 }
 
 .rtpoet-node {
-    fill: lightsalmon;
+    fill: #dedede;
+}
+
+.sprotty-label {
+    fill: #000000;
+    stroke: #dedede;
 }
 
 .sprotty-node.mouseover:not(.selected) {
@@ -58,4 +63,10 @@ svg {
     fill: #f00;
     font-size: 14pt;
     text-anchor: middle;
+}
+
+.state {
+}
+
+.state\:initial-point {
 }

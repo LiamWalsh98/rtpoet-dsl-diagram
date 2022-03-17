@@ -3,27 +3,33 @@
   "name": "browser-app",
   "version": "0.1.0",
   "dependencies": {
-    "@theia/core": "1.4.0",
-    "@theia/editor": "1.4.0",
-    "@theia/filesystem": "1.4.0",
-    "@theia/languages": "1.4.0",
-    "@theia/markers": "1.4.0",
-    "@theia/messages": "1.4.0",
-    "@theia/monaco": "1.4.0",
-    "@theia/navigator": "1.4.0",
-    "@theia/preferences": "1.4.0",
-    "@theia/process": "1.4.0",
-    "@theia/terminal": "1.4.0",
-    "@theia/workspace": "1.4.0",
-    "@rtpoet/rtpoet-theia": "0.8.0"
+    "@rtpoet/rtpoet-theia": "0.8.0",
+    "@theia/core": "^1.19.0",
+    "@theia/editor": "^1.19.0",
+    "@theia/filesystem": "^1.19.0",
+    "@theia/markers": "^1.19.0",
+    "@theia/messages": "^1.19.0",
+    "@theia/monaco": "^1.19.0",
+    "@theia/navigator": "^1.19.0",
+    "@theia/preferences": "^1.19.0",
+    "@theia/process": "^1.19.0",
+    "@theia/terminal": "^1.19.0",
+    "@theia/workspace": "^1.19.0",
+    "font-awesome": "^4.7.0",
+    "less": "^2.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "webpack": "5.68.0"
   },
   "devDependencies": {
-    "@theia/cli": "1.4.0"
+    "@theia/cli": "1.20.0"
   },
   "scripts": {
     "prepare": "yarn build",
+    "clean": "theia clean",
     "build": "theia build --mode development",
     "start": "theia start --RTPOET_GLSP=5013 --root-dir=../workspace",
+    "inspect": "theia start --inspect-brk --RTPOET_GLSP=5013 --root-dir=/workspace",
     "start:debug": "theia start --RTPOET_GLSP=5013 --root-dir=../workspace --loglevel=debug",
     "watch": "yarn build --mode development"
   },

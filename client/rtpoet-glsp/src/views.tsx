@@ -11,8 +11,8 @@
 /** @jsx svg */
 /* eslint-disable react/jsx-key */
 import { injectable } from "inversify";
-import { svg } from "snabbdom-jsx";
-import { VNode } from "snabbdom/vnode";
+// import { svg } from "sprotty";
+import { VNode } from "snabbdom";
 import {
     getSubType,
     IView,
@@ -27,7 +27,15 @@ import {
 } from "sprotty/lib";
 
 import { Icon, LabeledNode, SLabelNode } from "./model";
-import {CircularNodeView} from "@eclipse-glsp/client";
+import {CircularNodeView, svg} from "@eclipse-glsp/client";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const JSX = { createElement: svg };
+
+// FIX TAKEN FROM ECORE-GLSP
+// Due to typing issues (if we create elements we get an JSX.Element in return, not a VNode) we use a workaround and type the VNode elements with any to avoid compiling problems.
+// Please also see for example: https://github.com/eclipse/sprotty/issues/178
+// All described possible solutions did not work in our case.
 
 @injectable()
 export class ClassNodeView extends RectangularNodeView {
@@ -38,17 +46,17 @@ export class ClassNodeView extends RectangularNodeView {
         return <g class-node={true}>
             <defs>
                 <filter id="dropShadow">
-                    <feDropShadow dx="0.5" dy="0.5" stdDeviation="0.4" />
+                    <feDropShadow dx="0.5" dy="0.5" stdDeviation="0.4"/>
                 </filter>
             </defs>
 
             <rect class-sprotty-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}
                   x={0} y={0} rx={6} ry={6}
-                  width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
+                  width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)}/>
             {context.renderChildren(node)}
             {(node.children[1] && node.children[1].children.length > 0) ?
                 <path class-sprotty-edge={true} d={rhombStr}></path> : ""}
-        </g>;
+        </g> as any;
     }
 }
 
@@ -61,7 +69,7 @@ export class IconView implements IView {
         return <g>
             <image class-sprotty-icon={true} href={image} x={-2} y={-1} width={20} height={20}></image>
             {context.renderChildren(element)}
-        </g>;
+        </g> as any;
     }
 }
 
@@ -73,7 +81,7 @@ export class ArrowEdgeView extends PolylineEdgeView {
         return [
             <path class-sprotty-edge={true} d="M 10,-4 L 0,0 L 10,4"
                   transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />
-        ];
+        ] as any;
     }
 }
 
@@ -89,7 +97,7 @@ export class BidirectionalEdgeView extends ArrowEdgeView {
                   transform={`rotate(${angle(target2, target1)} ${target2.x} ${target2.y}) translate(${target2.x} ${target2.y})`} />,
             <path class-sprotty-edge={true} d="M 10,-4 L 0,0 L 10,4"
                   transform={`rotate(${angle(source1, source2)} ${source1.x} ${source1.y}) translate(${source1.x} ${source1.y})`} />
-        ];
+        ] as any;
     }
 }
 
@@ -101,7 +109,7 @@ export class InheritanceEdgeView extends ArrowEdgeView {
         return [
             <path class-sprotty-edge={true} class-triangle={true} d="M 10,-8 L 0,0 L 10,8 Z" class-inheritance={true}
                   transform={`rotate(${angle(p2, p1)} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`} />
-        ];
+        ] as any ;
     }
 }
 
@@ -116,7 +124,7 @@ abstract class DiamondEdgeView extends PolylineEdgeView {
         return [
             <path class-sprotty-edge={true} class-diamond={true} class-composition={this.isComposition()} d={rhombStr}
                   transform={`rotate(${firstEdgeAngle} ${p1.x} ${p1.y}) translate(${p1.x} ${p1.y})`} />
-        ];
+        ] as any;
     }
     protected isComposition(): boolean {
         return false;
@@ -161,9 +169,9 @@ export class LabelNodeView extends SLabelView {
 
         const subType = getSubType(labelNode);
         if (subType) {
-            setAttr(vnode, "class", subType);
+            setAttr(vnode as any, "class", subType);
         }
-        return vnode;
+        return vnode as any;
     }
 }
 

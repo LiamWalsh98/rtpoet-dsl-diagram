@@ -14,45 +14,51 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import {
+    DiagramWidgetOptions,
     GLSPDiagramManager,
-    GLSPNotificationManager,
-    GLSPTheiaSprottyConnector
-} from '@eclipse-glsp/theia-integration/lib/browser';
-import { MessageService } from '@theia/core';
-import { WidgetManager } from '@theia/core/lib/browser';
-import { EditorManager } from '@theia/editor/lib/browser';
-import { inject, injectable } from 'inversify';
-import { TheiaFileSaver } from 'sprotty-theia';
+    GLSPWidgetOpenerOptions,
+    GLSPWidgetOptions
+} from "@eclipse-glsp/theia-integration/lib/browser";
+import URI from "@theia/core/lib/common/uri";
+import { WorkspaceService } from "@theia/workspace/lib/browser";
+import { inject, injectable, postConstruct } from "inversify";
 
 import { RTPoetLanguage } from '../../common/rtpoet-language';
-import { RTPoetGLSPDiagramClient } from './rtpoet-glsp-diagram-client';
+
+export interface RTPoetDiagramWidgetOptions extends DiagramWidgetOptions, GLSPWidgetOptions {
+    workspaceRoot: string;
+}
+// import { RTPoetGLSPDiagramClient } from './rtpoet-glsp-diagram-client';
+// import {TheiaGLSPConnectorRegistry} from "@eclipse-glsp/theia-integration/src/browser/diagram/theia-glsp-connector";
 
 @injectable()
 export class RTPoetDiagramManager extends GLSPDiagramManager {
-    iconClass = 'fa fa-project';
-    readonly diagramType = RTPoetLanguage.DiagramType;
-    readonly label = RTPoetLanguage.Label + ' Editor';
 
-    private _diagramConnector: GLSPTheiaSprottyConnector;
+    @inject(WorkspaceService) workspaceService: WorkspaceService;
 
-    constructor(
-        @inject(RTPoetGLSPDiagramClient) diagramClient: RTPoetGLSPDiagramClient,
-        @inject(TheiaFileSaver) fileSaver: TheiaFileSaver,
-        @inject(WidgetManager) widgetManager: WidgetManager,
-        @inject(EditorManager) editorManager: EditorManager,
-        @inject(MessageService) messageService: MessageService,
-        @inject(GLSPNotificationManager) notificationManager: GLSPNotificationManager) {
-        super();
-        this._diagramConnector = new GLSPTheiaSprottyConnector({
-            diagramClient, fileSaver, editorManager, widgetManager, diagramManager: this,
-            messageService, notificationManager
-        });
+    readonly diagramType = RTPoetLanguage.diagramType;
+    readonly label = RTPoetLanguage.label + " Editor";
+
+    private workspaceRoot: string;
+
+    @postConstruct()
+    protected async initialize(): Promise<void> {
+        super.initialize();
+        this.workspaceService.roots.then(roots => this.workspaceRoot = roots[0].resource.toString());
     }
 
     get fileExtensions(): string[] {
-        return [RTPoetLanguage.FileExtension];
+        return RTPoetLanguage.fileExtensions;
     }
-    get diagramConnector(): GLSPTheiaSprottyConnector {
-        return this._diagramConnector;
+
+    protected createWidgetOptions(uri: URI, options?: GLSPWidgetOpenerOptions): RTPoetDiagramWidgetOptions {
+        return {
+            ...super.createWidgetOptions(uri, options),
+            workspaceRoot: this.workspaceRoot
+        } as RTPoetDiagramWidgetOptions;
+    }
+
+    get iconClass(): string {
+        return RTPoetLanguage.iconClass!;
     }
 }

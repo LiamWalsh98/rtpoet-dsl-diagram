@@ -18,9 +18,10 @@
     "src"
   ],
   "dependencies": {
+    "@eclipse-glsp/client": "^0.9.0",
+    "@eclipse-glsp/theia-integration": "^0.9.0",
     "@rtpoet/rtpoet-glsp": "0.8.0",
-    "@eclipse-glsp/theia-integration": "0.8.0",
-    "@eclipse-glsp/client": "0.8.1"
+    "@theia/core": "^1.19.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",

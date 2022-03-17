@@ -15,22 +15,36 @@
  ********************************************************************************/
 import 'sprotty-theia/css/theia-sprotty.css';
 
-import { createRTPoetDiagramContainer } from '@rtpoet/rtpoet-glsp';
-import { TYPES } from '@eclipse-glsp/client';
-import { GLSPTheiaDiagramServer } from '@eclipse-glsp/theia-integration/lib/browser';
+import { createRTPoetDiagramContainer } from '@rtpoet/rtpoet-glsp/lib';
+// import { GLSP_TYPES } from '@eclipse-glsp/client';
+import {
+    configureDiagramServer,
+    GLSPDiagramConfiguration,
+    GlspSelectionDataService,
+    TheiaDiagramServer
+} from '@eclipse-glsp/theia-integration/lib/browser';
 import { Container, injectable } from 'inversify';
-import { DiagramConfiguration } from 'sprotty-theia';
-
+// import { DiagramConfiguration } from 'sprotty-theia';
+import { RTPoetGlspSelectionDataService } from "./selection-data-service";
 import { RTPoetLanguage } from '../../common/rtpoet-language';
+import { RTPoetGLSPTheiaDiagramServer } from "./rtpoet-glsp-theia-diagram-server";
 
 @injectable()
-export class RTPoetDiagramConfiguration implements DiagramConfiguration {
+export class RTPoetDiagramConfiguration extends GLSPDiagramConfiguration {
 
-    diagramType: string = RTPoetLanguage.DiagramType;
+    diagramType: string = RTPoetLanguage.diagramType;
 
-    createContainer(widgetId: string): Container {
+    // createContainer(widgetId: string): Container {
+    //     const container = createRTPoetDiagramContainer(widgetId);
+    //     container.bind(TYPES.ModelSource).to(GLSPTheiaDiagramServer).inSingletonScope();
+    //     return container;
+    // }
+
+    doCreateContainer(widgetId: string): Container {
         const container = createRTPoetDiagramContainer(widgetId);
-        container.bind(TYPES.ModelSource).to(GLSPTheiaDiagramServer).inSingletonScope();
+        configureDiagramServer(container, RTPoetGLSPTheiaDiagramServer);
+        container.bind(TheiaDiagramServer).toService(RTPoetGLSPTheiaDiagramServer);
+        container.bind(GlspSelectionDataService).to(RTPoetGlspSelectionDataService);
         return container;
     }
 }

@@ -14,30 +14,36 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import { getPort } from '@eclipse-glsp/protocol';
-import { BaseGLSPServerContribution } from '@eclipse-glsp/theia-integration/lib/node';
-import { IConnection } from '@theia/languages/lib/node';
+import {
+    JavaSocketServerContribution,
+    JavaSocketServerLaunchOptions
+} from '@eclipse-glsp/theia-integration/lib/node';
 import { injectable } from 'inversify';
-import * as net from 'net';
-import { createSocketConnection } from 'vscode-ws-jsonrpc/lib/server';
+import { createSocketConnection, IConnection } from "vscode-ws-jsonrpc/lib/server";
 
 import { RTPoetLanguage } from '../common/rtpoet-language';
+import {join, resolve} from 'path';
+import * as net from 'net';
+
+export const DEFAULT_PORT = 5007;
+export const PORT_ARG_KEY = 'RTPOET_GLSP';
+export const SERVER_DIR = join(__dirname, '..', '..', 'server');
+export const JAR_FILE = resolve(join(__dirname, '..', '..', 'server', 'ca.jahed.rtpoet.dsl.diagram-0.1.0-ls.jar'));
 
 @injectable()
-export class RTPoetGLSPServerContribution extends BaseGLSPServerContribution {
-    readonly id = RTPoetLanguage.Id;
-    readonly name = RTPoetLanguage.Name;
+export class RTPoetGLSPServerContribution extends JavaSocketServerContribution {
+    readonly id = RTPoetLanguage.contributionId;
 
-    start(clientConnection: IConnection): void {
-        const socketPort = getPort('RTPOET_GLSP');
-        if (!isNaN(socketPort)) {
-            const socket = new net.Socket();
-            const serverConnection = createSocketConnection(socket, socket, () => {
-                socket.destroy();
-            });
-            this.forward(clientConnection, serverConnection);
-            socket.connect(socketPort);
-        } else {
-            console.error('Error when trying to connect to Workflow GLSP server');
-        }
+    createLaunchOptions(): Partial<JavaSocketServerLaunchOptions> {
+        return {
+            jarPath: JAR_FILE,
+            socketConnectionOptions: {
+                port: getPort(PORT_ARG_KEY, DEFAULT_PORT)
+            },
+            additionalArgs: ['--consoleLog', 'false',
+                '--fileLog', 'true',
+                '--logDir', SERVER_DIR],
+        };
     }
+
 }

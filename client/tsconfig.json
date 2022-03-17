@@ -3,6 +3,14 @@
   "compilerOptions": {
     "skipLibCheck": false,
     "baseUrl": ".",
+    "paths": {
+      "@rtpoet/rtpoet-glsp": [
+        "rtpoet-glsp/src/*"
+      ],
+      "@rtpoet/rtpoet-theia": [
+        "rtpoet-theia/src/*"
+      ]
+    },
     "plugins": [
       {
         "name": "tslint-language-service"

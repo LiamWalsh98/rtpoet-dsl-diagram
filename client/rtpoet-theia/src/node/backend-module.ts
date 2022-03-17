@@ -14,13 +14,27 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 import { GLSPServerContribution } from '@eclipse-glsp/theia-integration/lib/node';
-import { BackendApplicationContribution } from '@theia/core/lib/node';
+// import { BackendApplicationContribution } from '@theia/core/lib/node';
 import { ContainerModule } from 'inversify';
 
 import { RTPoetGLSPServerContribution } from './rtpoet-glsp-server-contribution';
-import { RTPoetServerLauncher } from './server-launcher';
+// import { RTPoetServerLauncher } from './server-launcher';
 
 export default new ContainerModule(bind => {
-    bind(GLSPServerContribution).to(RTPoetGLSPServerContribution).inSingletonScope();
-    bind(BackendApplicationContribution).to(RTPoetServerLauncher);
+    bind(RTPoetGLSPServerContribution).toSelf().inSingletonScope();
+    bind(GLSPServerContribution).toService(RTPoetGLSPServerContribution);
+    // bind(BackendApplicationContribution).to(RTPoetServerLauncher);
 });
+
+// import { GLSPServerContribution } from '@eclipse-glsp/theia-integration/lib/node';
+// import { BackendApplicationContribution } from '@theia/core/lib/node';
+// import { ContainerModule } from 'inversify';
+//
+// import { RTPoetGLSPServerContribution } from './rtpoet-glsp-server-contribution';
+// import { RTPoetServerLauncher } from './server-launcher';
+//
+// export default new ContainerModule(bind => {
+//     bind(GLSPServerContribution).to(RTPoetGLSPServerContribution).inSingletonScope();
+//     bind(BackendApplicationContribution).to(RTPoetServerLauncher);
+// });
+

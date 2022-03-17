@@ -113,6 +113,7 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
 	    // RETURNS A COLLECTION OF ALL NODES AND EDGES OF STATE MACHINE
         List<GModelElement> elements = new ArrayList<>();
 
+
 //	    List<GNode> states = new ArrayList<>();
 //        List<GEdge> transitions = new ArrayList<>();
 //
@@ -152,8 +153,14 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
                 .addCssClass(CSS.TRANSITION)//
                 .sourceId(source) //
                 .targetId(target) //
-//                .add(createEdgeLabel(transition)) // todo: fix guard labels
                 .routerKind(GConstants.RouterKind.POLYLINE);
+        if (transition.getGuard() != null) {
+            b.add(createEdgeLabel(transition.getGuard().getBody(), Types.TRANSITION_GUARD)); // todo: fix guard labels
+        }
+//        else if (transition != null) {
+//            b.add(createEdgeLabel(transition.getGuard().getBody(), Types.TRANSITION_GUARD)); // todo: fix guard labels
+//        }
+
         return b.build();
     }
 
@@ -168,14 +175,14 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
 //                .build();
 //    }
 
-    private GLabel createEdgeLabel(Transition transition) {
-        return new GLabelBuilder(Types.TRANSITION_GUARD) //
+    private GLabel createEdgeLabel(String label, String type) {
+        return new GLabelBuilder(type) //
                 .edgePlacement(new GEdgePlacementBuilder()//
                         .side(GConstants.EdgeSide.TOP)//
                         .offset(2d) //
                         .rotate(false) //
                         .build())//
-                .text(transition.getGuard().getBody()).build();
+                .text(label).build();
     }
 
     public static GLSPServerException createFailed(EObject semanticElement) {

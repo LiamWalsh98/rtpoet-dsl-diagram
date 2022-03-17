@@ -18,10 +18,10 @@ import '../css/diagram.css';
 import {
     boundsModule,
     buttonModule, CircularNode, CircularNodeView,
-    configureModelElement,
+    configureModelElement, configureViewerOptions,
     ConsoleLogger,
     defaultGLSPModule,
-    defaultModule,
+    defaultModule, DiamondNode, DiamondNodeView,
     edgeLayoutModule,
     expandModule,
     exportModule,
@@ -37,11 +37,11 @@ import {
     modelHintsModule,
     modelSourceModule,
     openModule,
-    overrideViewerOptions,
+    // overrideViewerOptions,
     paletteModule,
     RectangularNode,
     RectangularNodeView,
-    routingModule,
+    routingModule, SCompartment, SCompartmentView,
     SGraphView,
     toolFeedbackModule,
     toolsModule,
@@ -59,28 +59,38 @@ import {
 import { Container, ContainerModule } from 'inversify';
 import {SLabelView} from 'sprotty/lib';
 
-const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
-    rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
-    rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn);
-    const context = { bind, unbind, isBound, rebind };
-    configureModelElement(context, 'graph', GLSPGraph, SGraphView);
-    configureModelElement(context, 'node', RectangularNode, RectangularNodeView);
+export default (containerId: string): Container => {
+    const rtpoetDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
+        rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
+        rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn);
+        const context = { bind, unbind, isBound, rebind };
+        configureModelElement(context, 'graph', GLSPGraph, SGraphView);
+        configureModelElement(context, 'node', RectangularNode, RectangularNodeView);
 
-    configureModelElement(context, 'node:state', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:composite', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:initial-point', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:entry-point', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:exit-point', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:choice-point', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:junction-point', CircularNode, CircularNodeView);
-    configureModelElement(context, 'node:state:deep-history', CircularNode, CircularNodeView);
+        configureModelElement(context, 'node:state', CircularNode, CircularNodeView);
 
-    configureModelElement(context, 'label:transition:guard', SEditableLabel, SLabelView);
+        configureModelElement(context, 'comp:state:composite', SCompartment, SCompartmentView);
 
-    configureModelElement(context, 'edge:transition', ArrowEdge, ArrowEdgeView);
-});
+        configureModelElement(context, 'node:state:initial-point', CircularNode, CircularNodeView);
+        configureModelElement(context, 'node:state:entry-point', CircularNode, CircularNodeView);
+        configureModelElement(context, 'node:state:exit-point', CircularNode, CircularNodeView);
 
-export default function createContainer(widgetId: string): Container {
+        configureModelElement(context, 'node:state:choice-point', DiamondNode, DiamondNodeView);
+
+        configureModelElement(context, 'node:state:junction-point', CircularNode, CircularNodeView);
+        configureModelElement(context, 'node:state:deep-history', CircularNode, CircularNodeView);
+
+        configureModelElement(context, 'label:transition:guard', SEditableLabel, SLabelView);
+
+        configureModelElement(context, 'label:state:name', SEditableLabel, SLabelView);
+
+        configureModelElement(context, 'edge:transition', ArrowEdge, ArrowEdgeView);
+        configureViewerOptions(context, {
+            needsClientLayout: true,
+            baseDiv: containerId
+        });
+    });
+
     const container = new Container();
 
     container.load(validationModule, defaultModule, glspMouseToolModule, defaultGLSPModule, glspSelectModule, boundsModule, viewportModule, toolsModule,
@@ -88,11 +98,5 @@ export default function createContainer(widgetId: string): Container {
         rtpoetDiagramModule, toolFeedbackModule, modelHintsModule, glspServerCopyPasteModule, paletteModule, routingModule, glspDecorationModule, edgeLayoutModule, zorderModule,
         layoutCommandsModule);
 
-    overrideViewerOptions(container, {
-        baseDiv: widgetId,
-        hiddenDiv: widgetId + '_hidden',
-        needsClientLayout: true
-    });
-
     return container;
-}
+};

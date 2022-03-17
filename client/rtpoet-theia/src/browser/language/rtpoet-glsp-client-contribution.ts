@@ -17,10 +17,20 @@ import { BaseGLSPClientContribution } from '@eclipse-glsp/theia-integration/lib/
 import { injectable } from 'inversify';
 
 import { RTPoetLanguage } from '../../common/rtpoet-language';
+import {MaybePromise} from "@theia/core";
+import {Args} from "@eclipse-glsp/protocol";
 
 @injectable()
 export class RTPoetGLSPClientContribution extends BaseGLSPClientContribution {
-    readonly id = RTPoetLanguage.Id;
-    readonly name = RTPoetLanguage.Name;
-    readonly fileExtensions = [RTPoetLanguage.FileExtension];
+    readonly id = RTPoetLanguage.contributionId;
+    readonly fileExtensions = RTPoetLanguage.fileExtensions;
+
+    // //todo: maybe remove this block
+    protected createInitializeOptions(): MaybePromise<Args | undefined> {
+        return {
+            ["timestamp"]: new Date().toString(),
+            ["modelServerURL"]: "http://localhost:8081/api/v1/"
+        };
+    }
+
 }

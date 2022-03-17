@@ -13,10 +13,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-export namespace RTPoetLanguage {
-    export const Id = 'RTPoet';
-    export const Name = 'RTPoet';
-    export const Label = 'RTPoet diagram';
-    export const DiagramType = 'rtpoet-diagram';
-    export const FileExtension = '.rt';
-}
+import {GLSPDiagramLanguage} from "@eclipse-glsp/theia-integration";
+
+export const RTPoetLanguage: GLSPDiagramLanguage = {
+    contributionId: 'RTPoet',
+    label: 'RTPoet diagram',
+    // consider changing to 'rtpoet' as 'diagram' is added elsewhere to element
+    diagramType: 'rtpoet-diagram',
+    fileExtensions: ['.rt'],
+    iconClass: 'codicon codicon-type-hierarchy-sub file-icon'
+};
