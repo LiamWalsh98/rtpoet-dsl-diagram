@@ -21,39 +21,59 @@ import java.util.*;
 
 public class RTPoetModelIndex extends GModelIndexImpl {
 
-//    private final Map<String, GModelElement> idToElement = new HashMap<>();
+    private final Map<String, GModelElement> idToElement;
 //    private final Map<EClass, Set<GModelElement>> typeToElements = new HashMap<>();
 
-    private BiMap<String, GModelElement> elementIndex;
-//	private Map<EObject, Set<GModelElement>> notationIndex;
+//    private BiMap<String, GModelElement> graphIndex;
+    private BiMap<String, EObject> semanticIndex;
+
+    //	private Map<EObject, Set<GModelElement>> notationIndex;
 //	private Set<String> bidirectionalReferences;
 //
-	private RTPoetModelIndex(EObject target) {
-		super(target);
-		elementIndex = HashBiMap.create();
+    private RTPoetModelIndex(EObject target) {
+        super(target);
+        idToElement = new HashMap<>();
+        semanticIndex = HashBiMap.create();
 //		notationIndex = new HashMap<>();
 //		bidirectionalReferences = new HashSet<>();
-	}
-//
-	public static RTPoetModelIndex get(GModelElement element) {
-		EObject root = EcoreUtil.getRootContainer(element);
-		RTPoetModelIndex existingIndex = (RTPoetModelIndex) EcoreUtil.getExistingAdapter(root, RTPoetModelIndex.class);
-		return Optional.ofNullable(existingIndex).orElseGet(() -> (create(element)));
-	}
-//
-	public static RTPoetModelIndex create(GModelElement element) {
-		return new RTPoetModelIndex(EcoreUtil.getRootContainer(element));
-	}
-
-    public void indexElement(String id, EObject semanticElement) {
-
     }
 
-    public Optional<Object> getId(EObject element) {
-        String id = UUID.randomUUID().toString();
-
-        return Optional.ofNullable(elementIndex.inverse().get(element));
+    //
+    public static RTPoetModelIndex get(GModelElement element) {
+        EObject root = EcoreUtil.getRootContainer(element);
+        RTPoetModelIndex existingIndex = (RTPoetModelIndex) EcoreUtil.getExistingAdapter(root, RTPoetModelIndex.class);
+        return Optional.ofNullable(existingIndex).orElseGet(() -> (create(element)));
     }
+
+    //
+    public static RTPoetModelIndex create(GModelElement element) {
+        return new RTPoetModelIndex(EcoreUtil.getRootContainer(element));
+    }
+
+//    public void putGraphObject(String id, EObject graphElement) { semanticIndex.putIfAbsent(id, graphElement); }
+
+    public void putSemanticObject(String id, EObject semanticElement) {
+        semanticIndex.putIfAbsent(id, semanticElement);
+    }
+
+    public Optional<EObject> getSemanticObject(String id) {
+        return Optional.ofNullable(semanticIndex.get(id));
+    }
+
+//
+    public Optional<Object> getSemanticObjectId(EObject semanticElement) { return Optional.ofNullable(semanticIndex.inverse().get(semanticElement)); }
+
+
+    public String getOrCreateId(EObject element) {
+        if (semanticIndex.inverse().containsKey(element)) {
+            return semanticIndex.inverse().get(element);
+        } else {
+            String newId = UUID.randomUUID().toString();
+            putSemanticObject(newId, element);
+            return newId;
+        }
+    }
+
 //
 //	@Override
 //	public boolean isAdapterForType(Object type) {
@@ -65,7 +85,6 @@ public class RTPoetModelIndex extends GModelIndexImpl {
 //	}
 //
 //	public void indexNotation(EObject eObject) {
-////		EObject semanticElement = gModelElement.getSemanticElement().getResolvedElement();
 //        EObject semanticElement = eObject;
 //		semanticIndex.inverse().putIfAbsent(semanticElement, UUID.randomUUID().toString());
 //
@@ -74,9 +93,7 @@ public class RTPoetModelIndex extends GModelIndexImpl {
 //		}
 //	}
 //
-//	public Optional<EObject> getSemantic(String id) {
-//		return Optional.ofNullable(semanticIndex.get(id));
-//	}
+
 //
 //	public Optional<String> getSemanticId(EObject semanticElement) {
 //		return Optional.ofNullable(semanticIndex.inverse().get(semanticElement));

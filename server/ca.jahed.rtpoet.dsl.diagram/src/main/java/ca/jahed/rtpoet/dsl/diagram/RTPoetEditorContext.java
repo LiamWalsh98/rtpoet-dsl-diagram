@@ -13,17 +13,17 @@ package ca.jahed.rtpoet.dsl.diagram;
 //import org.eclipse.emfcloud.ecore.glsp.gmodel.GModelFactory;
 //import org.eclipse.emfcloud.ecore.glsp.model.EcoreModelState;
 
-import ca.jahed.rtpoet.dsl.diagram.gmodel.GModelFactory;
+import ca.jahed.rtpoet.dsl.diagram.gmodel.RTPoetGModelFactory;
 import ca.jahed.rtpoet.dsl.diagram.model.RTPoetModelState;
 
 public class RTPoetEditorContext {
 	private final ResourceManager resourceManager;
-	private final GModelFactory gModelFactory;
+	private final RTPoetGModelFactory gModelFactory;
 	private final RTPoetModelState modelState;
 
 	public RTPoetEditorContext(RTPoetModelState modelState) {
 		this.modelState = modelState;
-		gModelFactory = new GModelFactory(modelState);
+		gModelFactory = new RTPoetGModelFactory(modelState);
 		resourceManager = new ResourceManager(modelState);
 	}
 
@@ -35,7 +35,7 @@ public class RTPoetEditorContext {
 		return resourceManager;
 	}
 
-	public GModelFactory getGModelFactory() {
+	public RTPoetGModelFactory getGModelFactory() {
 		return gModelFactory;
 	}
 

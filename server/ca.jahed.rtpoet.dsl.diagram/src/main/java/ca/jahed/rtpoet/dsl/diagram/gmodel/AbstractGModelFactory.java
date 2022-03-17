@@ -12,9 +12,7 @@ package ca.jahed.rtpoet.dsl.diagram.gmodel;
 
 import ca.jahed.rtpoet.dsl.diagram.model.RTPoetModelState;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.glsp.graph.GModelElement;
-import org.eclipse.glsp.server.model.GModelStateImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,21 +22,12 @@ import java.util.UUID;
 public abstract class AbstractGModelFactory<T extends EObject, E extends GModelElement> {
 
     protected RTPoetModelState modelState;
-    protected static Map<EObject, String> idMap = new HashMap<>();
+//    protected static Map<EObject, String> idMap = new HashMap<>();
 
     public AbstractGModelFactory(RTPoetModelState modelState) {
         this.modelState = modelState;
     }
 
-    public String getOrCreateId(EObject element) {
-        if (idMap.containsKey(element)) {
-            return idMap.get(element);
-        } else {
-            String newId = UUID.randomUUID().toString();
-            idMap.put(element, newId);
-            return newId;
-        }
-    }
 
     public abstract E create(T semanticElement);
 
@@ -50,7 +39,7 @@ public abstract class AbstractGModelFactory<T extends EObject, E extends GModelE
 
 //        EcoreUtil.getID(element);
 
-        return getOrCreateId(element); //
+        return modelState.getIndex().getOrCreateId(element); //
 
 
 //		String id = modelState.getIndex().getId(element).orElse(null);

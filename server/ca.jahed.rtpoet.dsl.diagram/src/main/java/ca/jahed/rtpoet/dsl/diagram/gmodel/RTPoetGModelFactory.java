@@ -24,18 +24,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement> {
+public class RTPoetGModelFactory extends AbstractGModelFactory<EObject, GModelElement> {
 
 	private LabelFactory labelFactory;
 	private StateNodeFactory stateNodeFactory;
 
-	public GModelFactory(RTPoetModelState modelState) {
+	public RTPoetGModelFactory(RTPoetModelState modelState) {
 		super(modelState);
-		stateNodeFactory = new StateNodeFactory(modelState, this);
+		stateNodeFactory = new StateNodeFactory(modelState);
 		labelFactory = new LabelFactory(modelState);
 		getOrCreateRoot();
 
 	}
+
+    public GModelElement createAsRoot(EObject semanticElement) {
+        GModelElement result = null;
+        if (semanticElement instanceof Model) {
+            result = create((Model) semanticElement);
+        } else if (semanticElement instanceof State) {
+            result = create((State) semanticElement);
+        } else if (semanticElement instanceof Transition) {
+            result = create((Transition) semanticElement);
+        }
+//        else if (semanticElement instanceof Protocol) {
+//        }
+//        if (result == null) {
+//			throw createFailed(semanticElement);
+//		}
+        return result;
+    }
 
 	@Override
 	public GModelElement create(EObject semanticElement) {
@@ -98,6 +115,7 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
         return null;
     }
 
+
     private List<GModelElement> create(Part part) {
 	    // FOR NOW RETURNS ALL THE ELEMENTS OF THE CONTAINED BEHAVIOUR
 
@@ -112,7 +130,6 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
     private List<GModelElement> create(StateMachine stateMachine) {
 	    // RETURNS A COLLECTION OF ALL NODES AND EDGES OF STATE MACHINE
         List<GModelElement> elements = new ArrayList<>();
-
 
 //	    List<GNode> states = new ArrayList<>();
 //        List<GEdge> transitions = new ArrayList<>();
@@ -140,6 +157,7 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
     private GNode create(State state) {
 	    GNode result = null;
         result = stateNodeFactory.create(state);
+        result.setId(toId(state));
         return result;
     }
 
@@ -201,6 +219,20 @@ public class GModelFactory extends AbstractGModelFactory<EObject, GModelElement>
             modelState.setRoot(graph);
             return graph;
         }
+    }
+
+
+    private List<GModelElement> createAsRoot(Capsule capsule) {
+        // FOR NOW RETURNS ALL THE ELEMENTS OF THE CONTAINED BEHAVIOUR
+
+        List<GModelElement> children = new ArrayList<>();
+        // create reference edges
+
+        if (capsule.getStateMachine() != null) {
+            children.addAll(create(capsule.getStateMachine()));
+            return children;
+        }
+        return null;
     }
 
 

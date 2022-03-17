@@ -3,21 +3,24 @@ package ca.jahed.rtpoet.dsl.diagram.gmodel;
 import ca.jahed.rtpoet.dsl.diagram.model.RTPoetModelState;
 import ca.jahed.rtpoet.dsl.diagram.util.RTPoetConfig.*;
 import ca.jahed.rtpoet.dsl.rt.*;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.glsp.graph.GLabel;
 import org.eclipse.glsp.graph.GNode;
+import org.eclipse.glsp.graph.builder.impl.GEdgePlacementBuilder;
+import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
-import org.eclipse.glsp.graph.impl.GNodeImpl;
 import org.eclipse.glsp.graph.util.GConstants;
 
 public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
 
-    private GModelFactory parentFactory; // not needed for now
+//    private RTPoetGModelFactory parentFactory; // not needed for now
 
-    public StateNodeFactory(RTPoetModelState modelState, GModelFactory gModelFactory) {
+//    public StateNodeFactory(RTPoetModelState modelState, RTPoetGModelFactory gModelFactory) {
+//        super(modelState);
+//        this.parentFactory = gModelFactory;
+//    }
+
+    public StateNodeFactory(RTPoetModelState modelState) {
         super(modelState);
-        this.parentFactory = gModelFactory;
     }
 
     @Override
@@ -35,16 +38,19 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(SimpleState state) {
         GNodeBuilder b = new GNodeBuilder(Types.SIMPLE_STATE) //
                 .id(toId(state)) //
-                .size(30,30)
+                .size(80,80)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
+        if (state.getName() != null) {
+            b.add(createStateNameLabel(state.getName(), Types.STATE_NAME));
+        }
         return b.build();
     }
 
     public GNode create(CompositeState state) {
         GNodeBuilder b = new GNodeBuilder(Types.COMPOSITE_STATE) //
                 .id(toId(state)) //
-                .size(30,30)
+                .size(80,80)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -88,7 +94,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(InitialPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.INITIAL_POINT) //
                 .id(toId(state)) //
-                .size(15,15)
+                .size(20,20)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -97,7 +103,7 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
     public GNode create(JunctionPoint state) {
         GNodeBuilder b = new GNodeBuilder(Types.JUNCTION_POINT) //
                 .id(toId(state)) //
-                .size(30,30)
+                .size(50,50)
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
@@ -119,6 +125,21 @@ public class StateNodeFactory extends AbstractGModelFactory<State, GNode>{
                 .layout(GConstants.Layout.VBOX) //
                 .addCssClass(CSS.NODE); //
         return b.build();
+    }
+
+    private GLabel createStateNameLabel(String label, String type) {
+        return new GLabelBuilder(type) //
+                .edgePlacement(new GEdgePlacementBuilder()//
+                        .side(GConstants.HAlign.CENTER)//
+                        .offset(2d) //
+                        .rotate(false) //
+                        .build())//
+                .text(label).build();
+
+//        return new GLabelBuilder(type) //
+////                .addCssClass(CSS.ITALIC)//
+//                .text(label) //
+//                .build();
     }
 
  }

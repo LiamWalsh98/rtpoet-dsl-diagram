@@ -8,6 +8,7 @@ import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
 import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.operations.gmodel.CreateNodeOperationHandler;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class RTPoetCreateStateOperationHandler extends CreateNodeOperationHandler {
@@ -17,7 +18,7 @@ public class RTPoetCreateStateOperationHandler extends CreateNodeOperationHandle
     }
 
     @Override
-    protected GNode createNode(final Optional<GPoint> point, final GModelState modelState) {
+    protected GNode createNode(Optional<GPoint> point, Map<String,String> args, GModelState modelState) {
         GNodeBuilder builder = new GNodeBuilder(Types.SIMPLE_STATE)
                 .size(40, 20)
                 .addCssClass(CSS.NODE);

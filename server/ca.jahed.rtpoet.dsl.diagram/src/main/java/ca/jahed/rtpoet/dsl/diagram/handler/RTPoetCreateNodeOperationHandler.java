@@ -1,5 +1,6 @@
 package ca.jahed.rtpoet.dsl.diagram.handler;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.glsp.graph.DefaultTypes;
@@ -16,7 +17,7 @@ public class RTPoetCreateNodeOperationHandler extends CreateNodeOperationHandler
    }
 
    @Override
-   protected GNode createNode(final Optional<GPoint> point, final GModelState modelState) {
+   protected GNode createNode(Optional<GPoint> point, Map<String,String> args , GModelState modelState) {
       GNodeBuilder builder = new GNodeBuilder(DefaultTypes.NODE)
          .size(40, 20)
          .addCssClass("rtpoet-node");
