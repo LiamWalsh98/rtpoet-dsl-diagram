@@ -1,0 +1,38 @@
+{
+  "name": "@rtpoet/rtpoet-glsp",
+  "version": "0.8.0",
+  "description": "GLSP sprotty diagrams for RTPoet",
+  "license": "EPL-2.0",
+  "keywords": [
+    "rtpoet",
+    "diagram"
+  ],
+  "author": {
+    "name": "Liam Walsh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiamWalsh98/rtpoet-dsl-diagram.git"
+  },
+  "files": [
+    "lib",
+    "src",
+    "css"
+  ],
+  "dependencies": {
+    "@eclipse-glsp/client": "^0.9.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.1",
+    "typescript": "3.9.2"
+  },
+  "scripts": {
+    "prepare": "yarn clean && yarn build && yarn lint",
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "lint": "eslint -c ./.eslintrc.js --ext .ts ./src",
+    "watch": "tsc -w"
+  },
+  "main": "lib/index",
+  "types": "lib/index"
+}

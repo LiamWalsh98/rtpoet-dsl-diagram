@@ -1,0 +1,16 @@
+{
+  "extends": "../configs/base.tsconfig",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "."
+  },
+  "include": [
+    "src",
+    "server"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}
